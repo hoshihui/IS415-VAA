@@ -63,6 +63,5 @@ summary(mpsz3414$`PreSch Count`)
 top_n(mpsz3414, 1, `PreSch Count`)
 mpsz3414$Area <- mpsz3414 %>%
   st_area()
-mpsz3414 <- mpsz3414 %>%
-  mutate(`PreSch Density` = `PreSch Count`/Area * 1000000)
+
 ```
