@@ -1,4 +1,0 @@
----
-title: "chapter 2"
-author: "ho shi hui"
----
