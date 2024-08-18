@@ -9,8 +9,8 @@ Installing packages
 pacman::p_load(sf, tidyverse)
 ```
 
-Importing the data
-MPSZ
+Importing the data MPSZ
+
 ```{r}
 mpsz <- st_read(dsn = "D:/hoshihui/IS415-VAA/_site/Hands-on Ex/Hands-on Ex01/chap01/data/geospatial", 
                   layer = "MP14_SUBZONE_WEB_PL")
@@ -25,7 +25,9 @@ mpsz3414 <- st_set_crs(mpsz, 3414)
 st_crs(mpsz3414)
 
 ```
+
 Cycling Path
+
 ```{r}
 cyclingpath <- st_read(dsn = "D:/hoshihui/IS415-VAA/_site/Hands-on Ex/Hands-on Ex01/chap01/data/geospatial", 
                          layer = "CyclingPathGazette")
@@ -35,7 +37,9 @@ buffer_cycling <- st_buffer(cyclingpath,
 buffer_cycling$AREA <- st_area(buffer_cycling)
 sum(buffer_cycling$AREA)
 ```
+
 Preschool
+
 ```{r}
 preschool = st_read("D:/hoshihui/IS415-VAA/_site/Hands-on Ex/Hands-on Ex01/chap01/data/geospatial/PreSchoolsLocation.kml")
 
@@ -44,6 +48,7 @@ preschool3414 <- st_transform(preschool,
 ```
 
 Listings
+
 ```{r}
 listings <- read_csv("D:/hoshihui/IS415-VAA/_site/Hands-on Ex/Hands-on Ex01/chap01/data/aspatial/listings.csv")
 
@@ -57,6 +62,7 @@ glimpse(listings_sf)
 ```
 
 Combination
+
 ```{r}
 mpsz3414$`PreSch Count`<- lengths(st_intersects(mpsz3414, preschool3414))
 summary(mpsz3414$`PreSch Count`)
