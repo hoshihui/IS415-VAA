@@ -1,0 +1,9 @@
+---
+title: "Hands-on Exercise 01"
+author: "Ho Shi Hui"
+---
+
+Importing packages
+```{r}
+
+``
