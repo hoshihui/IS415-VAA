@@ -5,10 +5,12 @@ website:
   title: "IS415-VAA"
   navbar:
     left:
-      - text: "Hands-on Exercise"
+      - text: "Hands-on Exercise 1"
         menu:
-          - text: "Hands-on Exercise 1"
+          - text: "Hands-on Exercise Chapter 1"
             href: Hands-on_Ex/Hands-on_Ex01/chap01/Hands-on_Ex01.html
+          - text: "Hands-on Exercise Chapter 2"
+            href: Hands-on_Ex/Hands-on_Ex01/chap02/Hands-on_Ex01_chap2.html
     right:
       - href: index.qmd
         text: Home
