@@ -5,7 +5,3 @@ author: "Ho Shi Hui"
 
 Importing packages
 
-Hello
-```{r}
-
-``
