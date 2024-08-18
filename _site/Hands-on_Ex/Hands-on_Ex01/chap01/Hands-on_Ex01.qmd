@@ -4,4 +4,12 @@ author: "Ho Shi Hui"
 ---
 
 Importing packages
+```{r}
+pacman::p_load(sf, tidyverse)
+```
 
+Importing MPSZ 
+```{r}
+mpsz = st_read(dsn = "_site/Hands-on_Ex/Hands-on_Ex01/chap01/data/geospatial", 
+                  layer = "MP14_SUBZONE_WEB_PL")
+```
