@@ -13,8 +13,8 @@ MPSZ Part 2
 mpsz = st_read(dsn = "D:/hoshihui/IS415-VAA/_site/Hands-on_Ex/Hands-on_Ex01/chap02/data/geospatial", 
                   layer = "MP14_SUBZONE_WEB_PL")
 mpsz
-popdata <- read_csv("D:/hoshihui/IS415-VAA/_site/Hands-on_Ex/Hands-on_Ex01/chap02/data/aspatial/respopagesextod2011to2020.csv")
 
+popdata <- read_csv("D:/hoshihui/IS415-VAA/_site/Hands-on_Ex/Hands-on_Ex01/chap02/data/aspatial/respopagesextod2011to2020.csv")
 
 
 popdata2020 <- popdata2020 %>%
