@@ -290,3 +290,26 @@ tm_shape(mpsz_pop2020[mpsz_pop2020$REGION_N=="CENTRAL REGION", ])+
             frame = FALSE) +
   tm_borders(alpha = 0.5)
 ```
+
+Importing fourth chapter package
+```{r}
+pacman::p_load(sf, raster, spatstat, tmap, tidyverse)
+```
+
+Childcare data
+```{r}
+childcare_sf <- st_read("D:/hoshihui/IS415-VAA/_site/Hands-on_Ex/Hands-on_Ex01/chap01/data/ChildCareServices.geojson") %>%
+  st_transform(crs = 3414)
+
+tmap_mode('view')
+tm_shape(childcare_sf)+
+  tm_dots()
+tmap_mode('plot')
+```
+MPSZ data
+```{r}
+mpsz_sf <- st_read(dsn = "D:/hoshihui/IS415-VAA/_site/Hands-on_Ex/Hands-on_Ex01/chap01/data/geospatial", 
+                layer = "MP14_SUBZONE_WEB_PL")
+
+
+```
