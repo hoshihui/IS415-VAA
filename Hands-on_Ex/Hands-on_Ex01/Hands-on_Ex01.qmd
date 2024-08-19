@@ -2,3 +2,16 @@
 title: "Hands-on Exercise 1"
 author: "Ho Shi Hui"
 ---
+
+**01 Geospatial Data Science with R**
+
+Importing packages:
+```{r}
+pacman::p_load(sf, tidyverse)
+```
+
+Importing datas:
+```{r}
+mpsz = st_read(dsn = "D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex01/data/geospatial", 
+                  layer = "MP14_SUBZONE_WEB_PL")
+```
