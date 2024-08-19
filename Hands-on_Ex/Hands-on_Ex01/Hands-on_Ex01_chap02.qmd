@@ -10,4 +10,23 @@ output:
 
 **02 Thematic Mapping and GeoVisualisation with R**
 
-# 1.1 Importing packages:
+# 2.1 Importing packages:
+```{r}
+pacman::p_load(sf, tmap, tidyverse)
+```
+
+# 2.2 Importing data:
+```{r}
+mpsz <- st_read(dsn = "D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex01/data/geospatial", 
+                layer = "MP14_SUBZONE_WEB_PL")
+
+mpsz
+```
+## 2.2.1 Importing attribute data into R
+```{r}
+popdata <- read_csv("D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex01/data/aspatial/respopagesextod2011to2020.csv")
+```
+## 2.2.2 Data Preparation
+```{r}
+
+```
