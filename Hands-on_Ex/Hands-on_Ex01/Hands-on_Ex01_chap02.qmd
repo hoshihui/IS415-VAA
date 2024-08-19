@@ -11,24 +11,30 @@ output:
 **02 Thematic Mapping and GeoVisualisation with R**
 
 # 2.1 Importing packages:
+
 ```{r}
 pacman::p_load(sf, tmap, tidyverse, dpylr)
 ```
 
 # 2.2 Importing data:
+
 ```{r}
 mpsz <- st_read(dsn = "D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex01/data/geospatial", 
                 layer = "MP14_SUBZONE_WEB_PL")
 
 mpsz
 ```
+
 ## 2.2.1 Importing attribute data into R
+
 ```{r}
 popdata <- read_csv("D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex01/data/aspatial/respopagesextod2011to2020.csv")
 
 popdata
 ```
+
 ## 2.2.2 Data Preparation
+
 ```{r}
 #Data wrangling
 popdata2020 <- popdata %>%
@@ -58,7 +64,9 @@ popdata2020
 #mutate(YOUNG = rowSums(.[3:6])): create new column called young with and sum the values
 #select: select particular column for the final output
 ```
+
 ### 2.2.2.1 Joining attribute data and geospatial data
+
 ```{r}
 popdata2020 <- popdata2020 %>% mutate_at(.vars = vars(PA, SZ), .funs = list(toupper)) %>% filter(`ECONOMY ACTIVE` > 0)
 popdata2020
@@ -75,7 +83,9 @@ write_rds(mpsz_pop2020, "D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex01/data/re
 ```
 
 # 2.3 Choropleth Mapping Geospatial Data using tmap
+
 ## 2.3.1 Plotting a choropleth map using qtm
+
 ```{r}
 tmap_mode("plot") #static map because of plot
 qtm(mpsz_pop2020, fill = "DEPENDENCY") #to map the attribute with the legends
@@ -83,6 +93,7 @@ qtm(mpsz_pop2020, fill = "DEPENDENCY") #to map the attribute with the legends
 ```
 
 ##2.3.2 Creating choropleth map using tmap's elements
+
 ```{r}
 tm_shape(mpsz_pop2020)+
   tm_fill("DEPENDENCY", 
@@ -105,7 +116,9 @@ tm_shape(mpsz_pop2020)+
 #tm_compass: specify type of compass
 #tm_scale_bar: adds a scale bar to the map
 ```
+
 ### 2.3.2.1 Drawing base map
+
 ```{r}
 tm_shape(mpsz_pop2020) + tm_polygons() #can customise by adding borders legends etc
 tm_shape(mpsz_pop2020) + tm_polygons("DEPENDENCY")
@@ -115,7 +128,9 @@ tm_shape(mpsz_pop2020) +tm_fill("DEPENDENCY") + tm_borders(lwd = 0.1, alpha = 1)
 #alpha = control transparency level of the border, 0 mean transparent, 1 means opaque
 #other arguments for tm_borders is col = border colour, lty: border line type
 ```
+
 ## 2.3.3 Data classification methods of tmap
+
 ```{r}
 #Plotting choropleth maps with built in classification
 tm_shape(mpsz_pop2020)+
@@ -138,11 +153,13 @@ tm_shape(mpsz_pop2020)+
 #n represent the number of bins means categories the legend should show
 #style: specifies method for dividing the data. quantile means divide so each category has equal data points. equal divide into 5 equal width interval. jenks are based on natural groupings, grouping similar values together
 ```
+
 *DIY: Using what you had learned, prepare choropleth maps by using different classification methods supported by tmap and compare their differences.*
 
 *DIY: Preparing choropleth maps by using similar classification method but with different numbers of classes (i.e. 2, 6, 10, 20). Compare the output maps, what observation can you draw?*
 
 ### 2.3.3.1 Plotting choropleth map with custom break
+
 ```{r}
 summary(mpsz_pop2020$DEPENDENCY)
 tm_shape(mpsz_pop2020)+
@@ -152,6 +169,7 @@ tm_shape(mpsz_pop2020)+
 ```
 
 ##2.3.4 Colour Scheme
+
 ```{r}
 tm_shape(mpsz_pop2020)+
   tm_fill("DEPENDENCY",
@@ -164,7 +182,9 @@ tm_shape(mpsz_pop2020)+
 ```
 
 ## 2.3.5 Map Layouts
+
 ### 2.3.5.1 Map legend
+
 ```{r}
 
 tm_shape(mpsz_pop2020)+
@@ -186,7 +206,9 @@ tm_shape(mpsz_pop2020)+
 
 #legend.hist.z = 0.1: sets height of histogram in the legend as a proportion of the legend height
 ```
+
 ### 2.3.5.2 Map style
+
 ```{r}
 tm_shape(mpsz_pop2020)+
   tm_fill("DEPENDENCY", 
@@ -195,7 +217,9 @@ tm_shape(mpsz_pop2020)+
   tm_borders(alpha = 0.5) +
   tmap_style("cobalt")
 ```
+
 ### 2.3.5.3 Cartographic Furniture
+
 ```{r}
 #drawing other furnitures like compass
 tm_shape(mpsz_pop2020)+
@@ -216,8 +240,11 @@ tm_shape(mpsz_pop2020)+
   tm_credits("Source: Planning Sub-zone boundary from Urban Redevelopment Authorithy (URA)\n and Population data from Department of Statistics DOS", 
              position = c("left", "bottom"))
 ```
+
 ## 2.3.6 Drawing Small Multiple Choropleth Maps
+
 ### 2.3.6.1 Assigning multiple values to at least one of the aesthetic arguments
+
 ```{r}
 tm_shape(mpsz_pop2020)+ 
   tm_polygons(c("DEPENDENCY","AGED"),
@@ -228,6 +255,7 @@ tm_shape(mpsz_pop2020)+
 ```
 
 ### 2.3.6.2 Defining a group-by variable in tm_facets
+
 ```{r}
 tm_shape(mpsz_pop2020) +
   tm_fill("DEPENDENCY",
@@ -244,6 +272,7 @@ tm_shape(mpsz_pop2020) +
 ```
 
 ### 2.3.6.3 Creating multiple stand-alone maps with tm_arrange()
+
 ```{r}
 youngmap <- tm_shape(mpsz_pop2020)+ 
   tm_polygons("YOUNG", 
@@ -260,6 +289,7 @@ tmap_arrange(youngmap, agedmap, asp=1, ncol=2)
 ```
 
 ## 2.3.7 Mapping Spatial Object Meeting a Selection Criterion
+
 ```{r}
 tm_shape(mpsz_pop2020[mpsz_pop2020$REGION_N=="CENTRAL REGION", ])+
   tm_fill("DEPENDENCY", 
