@@ -322,5 +322,119 @@
       "The Building Block",
       "Thematic Mapping and GeoVisualisation with R"
     ]
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
+    "title": "Hands-on Exercise 02",
+    "section": "",
+    "text": "Learning Objectives"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html",
+    "title": "Hands-on Exercise 01 Chapter 2",
+    "section": "",
+    "text": "02 Thematic Mapping and GeoVisualisation with R",
+    "crumbs": [
+      "Home",
+      "The Building Block",
+      "Thematic Mapping and GeoVisualisation with R"
+    ]
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#importing-attribute-data-into-r",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#importing-attribute-data-into-r",
+    "title": "Hands-on Exercise 01 Chapter 2",
+    "section": "2.2.1 Importing attribute data into R",
+    "text": "2.2.1 Importing attribute data into R\n\npopdata &lt;- read_csv(\"D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex01/data/aspatial/respopagesextod2011to2020.csv\")\n\nRows: 984656 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (5): PA, SZ, AG, Sex, TOD\ndbl (2): Pop, Time\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\npopdata\n\n# A tibble: 984,656 × 7\n   PA         SZ                     AG     Sex     TOD                Pop  Time\n   &lt;chr&gt;      &lt;chr&gt;                  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;\n 1 Ang Mo Kio Ang Mo Kio Town Centre 0_to_4 Males   HDB 1- and 2-Ro…     0  2011\n 2 Ang Mo Kio Ang Mo Kio Town Centre 0_to_4 Males   HDB 3-Room Flats    10  2011\n 3 Ang Mo Kio Ang Mo Kio Town Centre 0_to_4 Males   HDB 4-Room Flats    30  2011\n 4 Ang Mo Kio Ang Mo Kio Town Centre 0_to_4 Males   HDB 5-Room and …    50  2011\n 5 Ang Mo Kio Ang Mo Kio Town Centre 0_to_4 Males   HUDC Flats (exc…     0  2011\n 6 Ang Mo Kio Ang Mo Kio Town Centre 0_to_4 Males   Landed Properti…     0  2011\n 7 Ang Mo Kio Ang Mo Kio Town Centre 0_to_4 Males   Condominiums an…    40  2011\n 8 Ang Mo Kio Ang Mo Kio Town Centre 0_to_4 Males   Others               0  2011\n 9 Ang Mo Kio Ang Mo Kio Town Centre 0_to_4 Females HDB 1- and 2-Ro…     0  2011\n10 Ang Mo Kio Ang Mo Kio Town Centre 0_to_4 Females HDB 3-Room Flats    10  2011\n# ℹ 984,646 more rows",
+    "crumbs": [
+      "Home",
+      "The Building Block",
+      "Thematic Mapping and GeoVisualisation with R"
+    ]
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#data-preparation",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#data-preparation",
+    "title": "Hands-on Exercise 01 Chapter 2",
+    "section": "2.2.2 Data Preparation",
+    "text": "2.2.2 Data Preparation\n\n#Data wrangling\npopdata2020 &lt;- popdata %&gt;%\n  filter(Time == 2020) %&gt;%\n  group_by(PA, SZ, AG) %&gt;%\n  summarise(`POP` = sum(`Pop`)) %&gt;%\n  ungroup()%&gt;%\n  pivot_wider(names_from=AG, \n              values_from=POP) %&gt;%\n  mutate(YOUNG = rowSums(.[3:6])\n         +rowSums(.[12])) %&gt;%\nmutate(`ECONOMY ACTIVE` = rowSums(.[7:11])+\nrowSums(.[13:15]))%&gt;%\nmutate(`AGED`=rowSums(.[16:21])) %&gt;%\nmutate(`TOTAL`=rowSums(.[3:21])) %&gt;%  \nmutate(`DEPENDENCY` = (`YOUNG` + `AGED`)\n/`ECONOMY ACTIVE`) %&gt;%\n  select(`PA`, `SZ`, `YOUNG`, \n       `ECONOMY ACTIVE`, `AGED`, \n       `TOTAL`, `DEPENDENCY`)\n\n`summarise()` has grouped output by 'PA', 'SZ'. You can override using the\n`.groups` argument.\n\npopdata2020\n\n# A tibble: 332 × 7\n   PA         SZ                   YOUNG `ECONOMY ACTIVE`  AGED TOTAL DEPENDENCY\n   &lt;chr&gt;      &lt;chr&gt;                &lt;dbl&gt;            &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;\n 1 Ang Mo Kio Ang Mo Kio Town Cen…  1440             2610   760  4810      0.843\n 2 Ang Mo Kio Cheng San             6640            15460  6050 28150      0.821\n 3 Ang Mo Kio Chong Boon            6150            13950  6470 26570      0.905\n 4 Ang Mo Kio Kebun Bahru           5540            12090  5120 22750      0.882\n 5 Ang Mo Kio Sembawang Hills       2100             3410  1310  6820      1    \n 6 Ang Mo Kio Shangri-La            3960             8420  3610 15990      0.899\n 7 Ang Mo Kio Tagore                2220             4200  1530  7950      0.893\n 8 Ang Mo Kio Townsville            4690            11450  5100 21240      0.855\n 9 Ang Mo Kio Yio Chu Kang             0                0     0     0    NaN    \n10 Ang Mo Kio Yio Chu Kang East     1220             2300   750  4270      0.857\n# ℹ 322 more rows\n\n#group_by: group the three column of daa together and each unique combination will be a separate group\n#summarise: create a new column\n#ungroup: remove the grouping so new operations applied to entire dataset\n#pivot_wider(names_from = AG, values from = POP): reshapes data from long format to wide format. unique values in AG column become new column names and corresponding values from POP column are filled in these new column\n#mutate(YOUNG = rowSums(.[3:6])): create new column called young with and sum the values\n#select: select particular column for the final output\n\n\n2.2.2.1 Joining attribute data and geospatial data\n\npopdata2020 &lt;- popdata2020 %&gt;% mutate_at(.vars = vars(PA, SZ), .funs = list(toupper)) %&gt;% filter(`ECONOMY ACTIVE` &gt; 0)\npopdata2020\n\n# A tibble: 234 × 7\n   PA         SZ                   YOUNG `ECONOMY ACTIVE`  AGED TOTAL DEPENDENCY\n   &lt;chr&gt;      &lt;chr&gt;                &lt;dbl&gt;            &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;\n 1 ANG MO KIO ANG MO KIO TOWN CEN…  1440             2610   760  4810      0.843\n 2 ANG MO KIO CHENG SAN             6640            15460  6050 28150      0.821\n 3 ANG MO KIO CHONG BOON            6150            13950  6470 26570      0.905\n 4 ANG MO KIO KEBUN BAHRU           5540            12090  5120 22750      0.882\n 5 ANG MO KIO SEMBAWANG HILLS       2100             3410  1310  6820      1    \n 6 ANG MO KIO SHANGRI-LA            3960             8420  3610 15990      0.899\n 7 ANG MO KIO TAGORE                2220             4200  1530  7950      0.893\n 8 ANG MO KIO TOWNSVILLE            4690            11450  5100 21240      0.855\n 9 ANG MO KIO YIO CHU KANG EAST     1220             2300   750  4270      0.857\n10 ANG MO KIO YIO CHU KANG WEST     6590            12850  4680 24120      0.877\n# ℹ 224 more rows\n\n#mutate_at: transformation to specific column\n#.vars = vars(): specifies which column you want to modify\n#.funs = list(): specifies functions you want to apply to those columns\n\nmpsz_pop2020 &lt;- left_join(mpsz, popdata2020, by = c(\"SUBZONE_N\" = \"SZ\"))\nmpsz_pop2020\n\nSimple feature collection with 323 features and 21 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33\nProjected CRS: SVY21\nFirst 10 features:\n   OBJECTID SUBZONE_NO       SUBZONE_N SUBZONE_C CA_IND      PLN_AREA_N\n1         1          1    MARINA SOUTH    MSSZ01      Y    MARINA SOUTH\n2         2          1    PEARL'S HILL    OTSZ01      Y          OUTRAM\n3         3          3       BOAT QUAY    SRSZ03      Y SINGAPORE RIVER\n4         4          8  HENDERSON HILL    BMSZ08      N     BUKIT MERAH\n5         5          3         REDHILL    BMSZ03      N     BUKIT MERAH\n6         6          7  ALEXANDRA HILL    BMSZ07      N     BUKIT MERAH\n7         7          9   BUKIT HO SWEE    BMSZ09      N     BUKIT MERAH\n8         8          2     CLARKE QUAY    SRSZ02      Y SINGAPORE RIVER\n9         9         13 PASIR PANJANG 1    QTSZ13      N      QUEENSTOWN\n10       10          7       QUEENSWAY    QTSZ07      N      QUEENSTOWN\n   PLN_AREA_C       REGION_N REGION_C          INC_CRC FMEL_UPD_D   X_ADDR\n1          MS CENTRAL REGION       CR 5ED7EB253F99252E 2014-12-05 31595.84\n2          OT CENTRAL REGION       CR 8C7149B9EB32EEFC 2014-12-05 28679.06\n3          SR CENTRAL REGION       CR C35FEFF02B13E0E5 2014-12-05 29654.96\n4          BM CENTRAL REGION       CR 3775D82C5DDBEFBD 2014-12-05 26782.83\n5          BM CENTRAL REGION       CR 85D9ABEF0A40678F 2014-12-05 26201.96\n6          BM CENTRAL REGION       CR 9D286521EF5E3B59 2014-12-05 25358.82\n7          BM CENTRAL REGION       CR 7839A8577144EFE2 2014-12-05 27680.06\n8          SR CENTRAL REGION       CR 48661DC0FBA09F7A 2014-12-05 29253.21\n9          QT CENTRAL REGION       CR 1F721290C421BFAB 2014-12-05 22077.34\n10         QT CENTRAL REGION       CR 3580D2AFFBEE914C 2014-12-05 24168.31\n     Y_ADDR SHAPE_Leng SHAPE_Area              PA YOUNG ECONOMY ACTIVE AGED\n1  29220.19   5267.381  1630379.3            &lt;NA&gt;    NA             NA   NA\n2  29782.05   3506.107   559816.2          OUTRAM  1200           2860 2120\n3  29974.66   1740.926   160807.5 SINGAPORE RIVER     0             40   10\n4  29933.77   3313.625   595428.9     BUKIT MERAH  3150           6900 3320\n5  30005.70   2825.594   387429.4     BUKIT MERAH  2900           6020 1740\n6  29991.38   4428.913  1030378.8     BUKIT MERAH  3340           6800 3420\n7  30230.86   3275.312   551732.0     BUKIT MERAH  3130           7700 3610\n8  30222.86   2208.619   290184.7 SINGAPORE RIVER     0             50   10\n9  29893.78   6571.323  1084792.3      QUEENSTOWN  1290           2600  610\n10 30104.18   3454.239   631644.3      QUEENSTOWN    50            140   60\n   TOTAL DEPENDENCY                       geometry\n1     NA         NA MULTIPOLYGON (((31495.56 30...\n2   6180  1.1608392 MULTIPOLYGON (((29092.28 30...\n3     50  0.2500000 MULTIPOLYGON (((29932.33 29...\n4  13370  0.9376812 MULTIPOLYGON (((27131.28 30...\n5  10660  0.7707641 MULTIPOLYGON (((26451.03 30...\n6  13560  0.9941176 MULTIPOLYGON (((25899.7 297...\n7  14440  0.8753247 MULTIPOLYGON (((27746.95 30...\n8     60  0.2000000 MULTIPOLYGON (((29351.26 29...\n9   4500  0.7307692 MULTIPOLYGON (((20996.49 30...\n10   250  0.7857143 MULTIPOLYGON (((24472.11 29...\n\n#left-join: merging two data sets but comparing on mpsz data\n\nwrite_rds(mpsz_pop2020, \"D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex01/data/respopagesextod2011to2020.csv\")\n#create a new file",
+    "crumbs": [
+      "Home",
+      "The Building Block",
+      "Thematic Mapping and GeoVisualisation with R"
+    ]
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#plotting-a-choropleth-map-using-qtm",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#plotting-a-choropleth-map-using-qtm",
+    "title": "Hands-on Exercise 01 Chapter 2",
+    "section": "2.3.1 Plotting a choropleth map using qtm",
+    "text": "2.3.1 Plotting a choropleth map using qtm\n\ntmap_mode(\"plot\") #static map because of plot\n\ntmap mode set to plotting\n\nqtm(mpsz_pop2020, fill = \"DEPENDENCY\") #to map the attribute with the legends\n\n\n\n\n\n\n\n#cannot customise anymore\n\n##2.3.2 Creating choropleth map using tmap’s elements\n\ntm_shape(mpsz_pop2020)+\n  tm_fill(\"DEPENDENCY\", \n          style = \"quantile\", \n          palette = \"Blues\",\n          title = \"Dependency ratio\") +\n  tm_layout(main.title = \"Distribution of Dependency Ratio by planning subzone\",\n            main.title.position = \"center\",\n            main.title.size = 1.2,\n            legend.height = 0.45, \n            legend.width = 0.35,\n            frame = TRUE) +\n  tm_borders(alpha = 0.5) +\n  tm_compass(type=\"8star\", size = 2) +\n  tm_scale_bar() +\n  tm_grid(alpha =0.2) +\n  tm_credits(\"Source: Planning Sub-zone boundary from Urban Redevelopment Authorithy (URA)\\n and Population data from Department of Statistics DOS\", \n             position = c(\"left\", \"bottom\"))\n\n\n\n\n\n\n\n#tm_compass: specify type of compass\n#tm_scale_bar: adds a scale bar to the map\n\n\n2.3.2.1 Drawing base map\n\ntm_shape(mpsz_pop2020) + tm_polygons() #can customise by adding borders legends etc\n\n\n\n\n\n\n\ntm_shape(mpsz_pop2020) + tm_polygons(\"DEPENDENCY\")\n\n\n\n\n\n\n\ntm_shape(mpsz_pop2020) + tm_fill(\"DEPENDENCY\") #without the borders\n\n\n\n\n\n\n\ntm_shape(mpsz_pop2020) +tm_fill(\"DEPENDENCY\") + tm_borders(lwd = 0.1, alpha = 1)\n\n\n\n\n\n\n\n#lwd = line width\n#alpha = control transparency level of the border, 0 mean transparent, 1 means opaque\n#other arguments for tm_borders is col = border colour, lty: border line type",
+    "crumbs": [
+      "Home",
+      "The Building Block",
+      "Thematic Mapping and GeoVisualisation with R"
+    ]
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#data-classification-methods-of-tmap",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#data-classification-methods-of-tmap",
+    "title": "Hands-on Exercise 01 Chapter 2",
+    "section": "2.3.3 Data classification methods of tmap",
+    "text": "2.3.3 Data classification methods of tmap\n\n#Plotting choropleth maps with built in classification\ntm_shape(mpsz_pop2020)+\n  tm_fill(\"DEPENDENCY\",\n          n = 5,\n          style = \"jenks\") +\n  tm_borders(alpha = 0.5)\n\n\n\n\n\n\n\ntm_shape(mpsz_pop2020)+\n  tm_fill(\"DEPENDENCY\",\n          n = 5,\n          style = \"quantile\") +\n  tm_borders(alpha = 0.5)\n\n\n\n\n\n\n\ntm_shape(mpsz_pop2020)+\n  tm_fill(\"DEPENDENCY\",\n          n = 5,\n          style = \"equal\") +\n  tm_borders(alpha = 0.5)\n\n\n\n\n\n\n\n#n represent the number of bins means categories the legend should show\n#style: specifies method for dividing the data. quantile means divide so each category has equal data points. equal divide into 5 equal width interval. jenks are based on natural groupings, grouping similar values together\n\nDIY: Using what you had learned, prepare choropleth maps by using different classification methods supported by tmap and compare their differences.\nDIY: Preparing choropleth maps by using similar classification method but with different numbers of classes (i.e. 2, 6, 10, 20). Compare the output maps, what observation can you draw?\n\n2.3.3.1 Plotting choropleth map with custom break\n\nsummary(mpsz_pop2020$DEPENDENCY)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n 0.1111  0.7147  0.7866  0.8585  0.8763 19.0000      92 \n\ntm_shape(mpsz_pop2020)+\n  tm_fill(\"DEPENDENCY\",\n          breaks = c(0, 0.60, 0.70, 0.80, 0.90, 1.00)) +\n  tm_borders(alpha = 0.5)\n\nWarning: Values have found that are higher than the highest break\n\n\n\n\n\n\n\n\n\n##2.3.4 Colour Scheme\n\ntm_shape(mpsz_pop2020)+\n  tm_fill(\"DEPENDENCY\",\n          n = 6,\n          style = \"quantile\",\n          palette = \"Blues\") +\n  tm_borders(alpha = 0.5)\n\n\n\n\n\n\n\n#use tm_fill palette to change colour\n#to reverse the colour shading add a - e.g., -Blues",
+    "crumbs": [
+      "Home",
+      "The Building Block",
+      "Thematic Mapping and GeoVisualisation with R"
+    ]
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#map-layouts",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#map-layouts",
+    "title": "Hands-on Exercise 01 Chapter 2",
+    "section": "2.3.5 Map Layouts",
+    "text": "2.3.5 Map Layouts\n\n2.3.5.1 Map legend\n\ntm_shape(mpsz_pop2020)+\n  tm_fill(\"DEPENDENCY\", \n          style = \"jenks\", \n          palette = \"Blues\", \n          legend.hist = TRUE, \n          legend.is.portrait = TRUE,\n          legend.hist.z = 0.1) +\n  tm_layout(main.title = \"Distribution of Dependency Ratio by planning subzone \\n(Jenks classification)\",\n            main.title.position = \"center\",\n            main.title.size = 1,\n            legend.height = 0.45, \n            legend.width = 0.35,\n            legend.outside = FALSE,\n            legend.position = c(\"right\", \"bottom\"),\n            frame = FALSE) +\n  tm_borders(alpha = 0.5)\n\n\n\n\n\n\n\n#legend.hist.z = 0.1: sets height of histogram in the legend as a proportion of the legend height\n\n\n\n2.3.5.2 Map style\n\ntm_shape(mpsz_pop2020)+\n  tm_fill(\"DEPENDENCY\", \n          style = \"quantile\", \n          palette = \"-Greens\") +\n  tm_borders(alpha = 0.5) +\n  tmap_style(\"cobalt\")\n\ntmap style set to \"cobalt\"\n\n\nother available styles are: \"white\", \"gray\", \"natural\", \"col_blind\", \"albatross\", \"beaver\", \"bw\", \"classic\", \"watercolor\" \n\n\n\n\n\n\n\n\n\n\n\n2.3.5.3 Cartographic Furniture\n\n#drawing other furnitures like compass\ntm_shape(mpsz_pop2020)+\n  tm_fill(\"DEPENDENCY\", \n          style = \"quantile\", \n          palette = \"Blues\",\n          title = \"No. of persons\") +\n  tm_layout(main.title = \"Distribution of Dependency Ratio \\nby planning subzone\",\n            main.title.position = \"center\",\n            main.title.size = 1.2,\n            legend.height = 0.45, \n            legend.width = 0.35,\n            frame = TRUE) +\n  tm_borders(alpha = 0.5) +\n  tm_compass(type=\"8star\", size = 2) +\n  tm_scale_bar(width = 0.15) +\n  tm_grid(lwd = 0.1, alpha = 0.2) +\n  tm_credits(\"Source: Planning Sub-zone boundary from Urban Redevelopment Authorithy (URA)\\n and Population data from Department of Statistics DOS\", \n             position = c(\"left\", \"bottom\"))",
+    "crumbs": [
+      "Home",
+      "The Building Block",
+      "Thematic Mapping and GeoVisualisation with R"
+    ]
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#drawing-small-multiple-choropleth-maps",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#drawing-small-multiple-choropleth-maps",
+    "title": "Hands-on Exercise 01 Chapter 2",
+    "section": "2.3.6 Drawing Small Multiple Choropleth Maps",
+    "text": "2.3.6 Drawing Small Multiple Choropleth Maps\n\n2.3.6.1 Assigning multiple values to at least one of the aesthetic arguments\n\ntm_shape(mpsz_pop2020)+ \n  tm_polygons(c(\"DEPENDENCY\",\"AGED\"),\n          style = c(\"equal\", \"quantile\"), \n          palette = list(\"Blues\",\"Greens\")) +\n  tm_layout(legend.position = c(\"right\", \"bottom\"))\n\n\n\n\n\n\n\n#using the c in tm_fill\n\n\n\n2.3.6.2 Defining a group-by variable in tm_facets\n\ntm_shape(mpsz_pop2020) +\n  tm_fill(\"DEPENDENCY\",\n          style = \"quantile\",\n          palette = \"Blues\",\n          thres.poly = 0) + \n  tm_facets(by=\"REGION_N\", \n            free.coords=TRUE, \n            drop.shapes=TRUE) +\n  tm_layout(legend.show = FALSE,\n            title.position = c(\"center\"), \n            title.size = 20) +\n  tm_borders(alpha = 0.5)\n\nWarning: The argument drop.shapes has been renamed to drop.units, and is\ntherefore deprecated\n\n\n\n\n\n\n\n\n\n\n\n2.3.6.3 Creating multiple stand-alone maps with tm_arrange()\n\nyoungmap &lt;- tm_shape(mpsz_pop2020)+ \n  tm_polygons(\"YOUNG\", \n              style = \"quantile\", \n              palette = \"Blues\")\n\nagedmap &lt;- tm_shape(mpsz_pop2020)+ \n  tm_polygons(\"AGED\", \n              style = \"quantile\", \n              palette = \"Blues\")\n\ntmap_arrange(youngmap, agedmap, asp=1, ncol=2)\n\n\n\n\n\n\n\n#asp: specifies the aspect ratio of he arranged maps, the ratio of the width to the height of the output plot",
+    "crumbs": [
+      "Home",
+      "The Building Block",
+      "Thematic Mapping and GeoVisualisation with R"
+    ]
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#mapping-spatial-object-meeting-a-selection-criterion",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html#mapping-spatial-object-meeting-a-selection-criterion",
+    "title": "Hands-on Exercise 01 Chapter 2",
+    "section": "2.3.7 Mapping Spatial Object Meeting a Selection Criterion",
+    "text": "2.3.7 Mapping Spatial Object Meeting a Selection Criterion\n\ntm_shape(mpsz_pop2020[mpsz_pop2020$REGION_N==\"CENTRAL REGION\", ])+\n  tm_fill(\"DEPENDENCY\", \n          style = \"quantile\", \n          palette = \"Blues\", \n          legend.hist = TRUE, \n          legend.is.portrait = TRUE,\n          legend.hist.z = 0.1) +\n  tm_layout(legend.outside = TRUE,\n            legend.height = 0.45, \n            legend.width = 5.0,\n            legend.position = c(\"right\", \"bottom\"),\n            frame = FALSE) +\n  tm_borders(alpha = 0.5)\n\nWarning in pre_process_gt(x, interactive = interactive, orig_crs =\ngm$shape.orig_crs): legend.width controls the width of the legend within a map.\nPlease use legend.outside.size to control the width of the outside legend\n\n\n\n\n\n\n\n\n#to specify the data you want to use in mpsz_pop2020",
+    "crumbs": [
+      "Home",
+      "The Building Block",
+      "Thematic Mapping and GeoVisualisation with R"
+    ]
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex_LearningObj.html",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex_LearningObj.html",
+    "title": "The Building Block",
+    "section": "",
+    "text": "Learning Objectives",
+    "crumbs": [
+      "Home",
+      "The Building Block"
+    ]
   }
 ]

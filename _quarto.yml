@@ -9,6 +9,8 @@ website:
         menu:
           - text: "Hands-on Exercise 1"
             href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html
+          - text: "Hands-on Exercise 2"
+            href: Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html
       - text: "In-class Exercise"
         menu: 
           - text: "In-class Exercise 1"
@@ -23,12 +25,12 @@ website:
     search: true
     contents:
       - text: The Building Block
-        href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.qmd
+        href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex_LearningObj.qmd
         contents: 
           - text: Geospatial Data Science with R
             href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01_chap01.qmd
           - text: Thematic Mapping and GeoVisualisation with R
-            href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01_chap02.qmd
+            href: Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.qmd
 
 format:
   html:
