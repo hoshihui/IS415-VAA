@@ -1,6 +1,8 @@
 ---
 title: "Hands-on Exercise 1"
 author: "Ho Shi Hui"
+date: "17 August, 2024"
+date-modified: "last-modified"
 ---
 
 **01 Geospatial Data Science with R**

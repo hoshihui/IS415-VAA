@@ -1,4 +1,10 @@
 ---
 title: "In-class Exercise 1: Geospatial Data Science"
 author: "Ho Shi Hui"
+date: "August 19, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true #run through the code if there is an error
+  echo: true #show all the code used
+  freeze: true #only render qmd files changes made
 ---
