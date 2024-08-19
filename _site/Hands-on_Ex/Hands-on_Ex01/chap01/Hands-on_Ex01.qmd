@@ -4,11 +4,13 @@ author: "Ho Shi Hui"
 ---
 
 Importing packages
+
 ```{r}
 pacman::p_load(sf, tidyverse)
 ```
 
-Importing MPSZ 
+Importing MPSZ
+
 ```{r}
 mpsz = st_read(dsn = "D:/hoshihui/IS415-VAA/_site/Hands-on_Ex/Hands-on_Ex01/chap01/data/geospatial", 
                   layer = "MP14_SUBZONE_WEB_PL")
@@ -25,6 +27,7 @@ st_crs(mpsz3414) #what is svy21 and things for
 ```
 
 Importing cycling path
+
 ```{r}
 cyclingpath = st_read(dsn = "D:/hoshihui/IS415-VAA/_site/Hands-on_Ex/Hands-on_Ex01/chap01/data/geospatial", 
                          layer = "CyclingPathGazette")
@@ -35,8 +38,8 @@ buffer_cycling$AREA <- st_area(buffer_cycling)
 sum(buffer_cycling$AREA)
 ```
 
-
 Importing preschool
+
 ```{r}
 preschool = st_read("D:/hoshihui/IS415-VAA/_site/Hands-on_Ex/Hands-on_Ex01/chap01/data/geospatial/PreSchoolsLocation.kml")
 preschool3414 <- st_transform(preschool, 
@@ -44,6 +47,7 @@ preschool3414 <- st_transform(preschool,
 ```
 
 Importing listings
+
 ```{r}
 listings <- read_csv("D:/hoshihui/IS415-VAA/_site/Hands-on_Ex/Hands-on_Ex01/chap01/data/aspatial/listings.csv")
 list(listings) 
@@ -54,7 +58,8 @@ listings_sf <- st_as_sf(listings,
 glimpse(listings_sf)
 ```
 
-Combination 
+Combination
+
 ```{r}
 mpsz3414$`PreSch Count`<- lengths(st_intersects(mpsz3414, preschool3414))
 summary(mpsz3414$`PreSch Count`)
@@ -66,6 +71,7 @@ mpsz3414 <- mpsz3414 %>%
 ```
 
 EDA
+
 ```{r}
 hist(mpsz3414$`PreSch Density`)
 ggplot(data=mpsz3414, 
@@ -89,13 +95,14 @@ ggplot(data=mpsz3414,
       y = "Pre-school count")
 ```
 
-
 Importing fourth chapter package
+
 ```{r}
 pacman::p_load(sf, raster, spatstat, tmap, tidyverse)
 ```
 
 Childcare data
+
 ```{r}
 childcare_sf <- st_read("D:/hoshihui/IS415-VAA/_site/Hands-on_Ex/Hands-on_Ex01/chap01/data/ChildCareServices.geojson") %>%
   st_transform(crs = 3414)
@@ -105,7 +112,9 @@ tm_shape(childcare_sf)+
   tm_dots()
 tmap_mode('plot')
 ```
+
 MPSZ data
+
 ```{r}
 mpsz_sf <- st_read(dsn = "D:/hoshihui/IS415-VAA/_site/Hands-on_Ex/Hands-on_Ex01/chap01/data/geospatial", 
                 layer = "MP14_SUBZONE_WEB_PL")
