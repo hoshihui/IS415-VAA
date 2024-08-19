@@ -1,0 +1,9 @@
+---
+title: "Hands-on Exercise 01 Chapter 2"
+author: "Ho Shi Hui"
+date: "19 August, 2024"
+date-modified: "last-modified"
+output:
+  html_document:
+    toc: yes
+---
