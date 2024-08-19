@@ -22,10 +22,12 @@ website:
     style: docked
     search: true
     contents:
-      - section: The Building Block
+      - text: The Building Block
         href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.qmd
         contents: 
           - text: Geospatial Data Science with R
+            href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01_chap01.qmd
+          - text: Thematic Mapping and GeoVisualisation with R
             href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01_chap01.qmd
 
 format:
