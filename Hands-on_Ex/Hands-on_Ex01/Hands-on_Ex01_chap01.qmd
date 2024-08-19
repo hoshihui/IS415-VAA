@@ -8,7 +8,7 @@ output:
     toc: yes
 ---
 
-**01 Geospatial Data Science with R**
+**01 Geospatial Data Science with R (Re-updated and redid everything from the beginning on 19 Aug)**
 
 # 1.1 Importing packages:
 
