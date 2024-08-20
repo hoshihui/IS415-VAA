@@ -4,6 +4,6 @@ about:
   template: trestles
 ---
 
-Welcome! I am **Ho Shi Hui** from Singapore Management University. I am currently specialising in Business Analytics and Financial Technology. This course website is developed to document my journey through the course module IS415: Geospatial Analytics and Applications under Prof. Kam Tin Seong. 
+Welcome! I am **Ho Shi Hui** from Singapore Management University. I am currently specialising in Business Analytics and Financial Technology. This course website is developed to document my journey through the course module IS415: Geospatial Analytics and Applications under Prof. Kam Tin Seong.
 
 Feel free to connect with me on LinkedIn too!
