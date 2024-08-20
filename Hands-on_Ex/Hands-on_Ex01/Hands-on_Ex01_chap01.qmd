@@ -12,7 +12,7 @@ output:
     toc: yes
 ---
 
-**01 Geospatial Data Science with R (Re-updated and redid everything from the beginning on 19 Aug)**
+**01 Geospatial Data Science with R (Uploaded Netlify on 17 Aug but re-updated and redid everything from the beginning on 19 Aug)**
 
 # 1.1 Importing packages:
 
@@ -193,3 +193,5 @@ ggplot(data=mpsz3414,
 ```
 
 *aes is to map the Pre School Density while as.numeric is to treat the data as a numeric value. geom_hist is for histogram while geom_point is for scatterplot*
+
+# Notes from eLearn video

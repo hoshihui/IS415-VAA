@@ -11,6 +11,7 @@ output:
   html_document:
     toc: yes
 ---
+*Uploaded Netlify on 19 Aug*
 
 **02 Thematic Mapping and GeoVisualisation with R**
 
@@ -311,3 +312,5 @@ tm_shape(mpsz_pop2020[mpsz_pop2020$REGION_N=="CENTRAL REGION", ])+
 
 #to specify the data you want to use in mpsz_pop2020
 ```
+
+# Notes from eLearn video

@@ -9,9 +9,9 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "About me",
     "section": "",
-    "text": "About me\nI am Ho Shi Hui from SMU Information Systems"
+    "text": "Welcome! I am Ho Shi Hui from Singapore Management University. I am currently specialising in Business Analytics and Financial Technology. This course website is developed to document my journey through the course module IS415: Geospatial Analytics and Applications under Prof. Kam Tin Seong.\nFeel free to connect with me on LinkedIn too!"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex01/data/geospatial/MPSZ-2019.html",
@@ -124,7 +124,7 @@
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01_chap01.html",
     "title": "Hands-on Exercise 01 Chapter 1",
     "section": "",
-    "text": "01 Geospatial Data Science with R (Re-updated and redid everything from the beginning on 19 Aug)",
+    "text": "01 Geospatial Data Science with R (Uploaded Netlify on 17 Aug but re-updated and redid everything from the beginning on 19 Aug)",
     "crumbs": [
       "The Building Block",
       "Geospatial Data Science with R"
@@ -326,7 +326,7 @@
     "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html",
     "title": "Hands-on Exercise 01 Chapter 2",
     "section": "",
-    "text": "02 Thematic Mapping and GeoVisualisation with R",
+    "text": "Uploaded Netlify on 19 Aug\n02 Thematic Mapping and GeoVisualisation with R",
     "crumbs": [
       "The Building Block",
       "Thematic Mapping and GeoVisualisation with R"
