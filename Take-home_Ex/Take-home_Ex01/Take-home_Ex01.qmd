@@ -1,0 +1,13 @@
+---
+title: "Take-home Exercise 01"
+author: "Ho Shi Hui"
+date: "20 August, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true #run through the code if there is an error
+  echo: true #show all the code used
+  freeze: true #only render qmd files changes made
+output:
+  html_document:
+    toc: yes
+---
