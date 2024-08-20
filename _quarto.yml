@@ -7,6 +7,8 @@ website:
     left:
       - text: "Hands-on Exercises"
         menu:
+          - text: "The Building Block"
+            href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex_LearningObj.html
           - text: "Hands-on Exercise 1"
             href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01_chap01.html
           - text: "Hands-on Exercise 2"
