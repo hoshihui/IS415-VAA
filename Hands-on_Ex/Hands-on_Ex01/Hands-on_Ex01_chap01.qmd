@@ -3,6 +3,10 @@ title: "Hands-on Exercise 01 Chapter 1"
 author: "Ho Shi Hui"
 date: "17 August, 2024"
 date-modified: "last-modified"
+execute: 
+  eval: true #run through the code if there is an error
+  echo: true #show all the code used
+  freeze: true #only render qmd files changes made
 output:
   html_document:
     toc: yes
