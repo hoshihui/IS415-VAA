@@ -192,6 +192,7 @@ ggplot(data=mpsz3414,
       y = "Pre-school count")
 ```
 
-*aes is to map the Pre School Density while as.numeric is to treat the data as a numeric value. geom_hist is for histogram while geom_point is for scatterplot*
+*aes is to map the Pre School Density while as.numeric is to treat the data as a numeric value. geom_hist is for histogram while geom_point is for scatter plot*
 
-# Notes from eLearn video
+
+

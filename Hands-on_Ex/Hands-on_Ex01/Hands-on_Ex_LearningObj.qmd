@@ -12,18 +12,85 @@ output:
     toc: yes
 ---
 
-**Learning Objectives** 
+**Learning Objectives**
 
-**Hands-on Exercise 01**
+# Hands-on Exercise 01
 
 -   Process of importing, wrangling, integrating and processing geographically referenced datasets.
 -   For geospatial data, use sf package
 -   For aspatial data, use readr package
 -   Perform EDA using ggplot
 
-**Hands-on Exercise 02**
+## Video 1 Learning Objectives
+2 Types of Geospatial Data Models:
+- Vector: store data that are discrete in nature
+    1. bus stops, building footprint
+    2. geometric primitives: 
+points - 1 coordinate pair
+lines - sequence of 2 or more coordinate pair, knows the length (polylines)
+polygons (location, length and area) - more than 3 coordinate pair
+
+- Raster: continuous data
+
+Coordinate Systems: provides location reference to the geospatial data
+
+- geographical coordinate systems: define location on the earth using 3D (degree)
+- projected: based on net projection (projectile) - 2D (SVY21) - consistent length and area management
+
+Geospatial Data Handling and Analysis
+
+- simple feature: latest geospatial standard on how a geospatial data should be captured (like points, lines, polygons)
+
+sf package:
+- new geospatial handling package
+- sfg (simple feature geometric) - store information of spatial feature
+
+data handling: to import geospatial data
+- st_transform: convert geospatial data from one projection system to another projection system - a lot of geospatial data need to convert to projected coordinate system if we want to involve distance measurement, precise location measurement
+
+shapefile: a collection of small file (PRJ gives projection information, SHX projection index etc)
+
+geometric confirmation: checking all the geometric data
+- st_intersects: compute and return data as attributes - find out the simple features that fall within the planning subzone
+
+sf methods: 
+- geometry generating logical operators
+- st_intersection: generate the output explicitly
+- st_difference & st_sym_difference
+
+Higher-level operations: (e.g., st_join)
+- spatial data wrangling: generate new data out of the existing data
+- st_buffer: calculate the buffer (provide the buffer distance)
+
+convenience functions: (understand the geospatial data)
+- st_geometry: list out the geometric properties
+
+# Hands-on Exercise 02
 
 -   Use map symbols to visualise selected properties of geographic features that are not naturally visible, such as population, temperature, crime rate, and property prices
+
+## Video 2 Learning Objectives
+Choropleth Mapping and TMap
+
+choropleth: type of map that area is shaded (planning subzone) colour: map the variables
+
+number of classes:
+- smaller classes (generalise the distribution)
+- should not have less than 4 classes if not cannot see the statistical distribution
+ 
+data classification:
+- equal interval - highly skewed (divide the intervals into equal value range) - If data ranges from 0 to 100 and you want to create 5 classes, each class would cover a range of 20 units (e.g., 0-20, 21-40, etc.)
+- quantile - If you have 100 data points and want 4 classes, each class will contain 25 data points, regardless of the actual value ranges
+- natural breaks (The Jenks method will automatically determine the best places to split this data into a specified number of classes, minimizing the variance within each class and maximizing the difference between classes.) - In a dataset with clear gaps between clusters of values, natural breaks would group these clusters into different classes, manual
+- std (map the std only if the data resemble normal distribution if not do not use this)
+
+colour scheme: colourbrewer - find out what will the colour scheme used
+- nominal color scheme (categorical data
+- sequential (value are all negative or all positive)/diverging (mix of positive and negative) for continuous data
+
+CHOROPLETH MAP:
+- classified choropleth map (will have the fixed number) - data is divided into distinct classes or categories
+- unclassified choropleth map: data values are represented using a continuous colour gradient
 
 **Hands-on Exercise 03**
 

@@ -194,7 +194,20 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#hands-on-exercise-01" id="toc-hands-on-exercise-01" class="nav-link active" data-scroll-target="#hands-on-exercise-01">Hands-on Exercise 01</a>
+  <ul class="collapse">
+  <li><a href="#video-1-learning-objectives" id="toc-video-1-learning-objectives" class="nav-link" data-scroll-target="#video-1-learning-objectives">Video 1 Learning Objectives</a></li>
+  </ul></li>
+  <li><a href="#hands-on-exercise-02" id="toc-hands-on-exercise-02" class="nav-link" data-scroll-target="#hands-on-exercise-02">Hands-on Exercise 02</a>
+  <ul class="collapse">
+  <li><a href="#video-2-learning-objectives" id="toc-video-2-learning-objectives" class="nav-link" data-scroll-target="#video-2-learning-objectives">Video 2 Learning Objectives</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -225,7 +238,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 20, 2024</p>
+      <p class="date-modified">August 24, 2024</p>
     </div>
   </div>
     
@@ -237,21 +250,57 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p><strong>Learning Objectives</strong></p>
-<p><strong>Hands-on Exercise 01</strong></p>
+<section id="hands-on-exercise-01" class="level1">
+<h1>Hands-on Exercise 01</h1>
 <ul>
 <li>Process of importing, wrangling, integrating and processing geographically referenced datasets.</li>
 <li>For geospatial data, use sf package</li>
 <li>For aspatial data, use readr package</li>
 <li>Perform EDA using ggplot</li>
 </ul>
-<p><strong>Hands-on Exercise 02</strong></p>
+<section id="video-1-learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="video-1-learning-objectives">Video 1 Learning Objectives</h2>
+<p>2 Types of Geospatial Data Models: - Vector: store data that are discrete in nature 1. bus stops, building footprint 2. geometric primitives: points - 1 coordinate pair lines - sequence of 2 or more coordinate pair, knows the length (polylines) polygons (location, length and area) - more than 3 coordinate pair</p>
+<ul>
+<li>Raster: continuous data</li>
+</ul>
+<p>Coordinate Systems: provides location reference to the geospatial data</p>
+<ul>
+<li>geographical coordinate systems: define location on the earth using 3D (degree)</li>
+<li>projected: based on net projection (projectile) - 2D (SVY21) - consistent length and area management</li>
+</ul>
+<p>Geospatial Data Handling and Analysis</p>
+<ul>
+<li>simple feature: latest geospatial standard on how a geospatial data should be captured (like points, lines, polygons)</li>
+</ul>
+<p>sf package: - new geospatial handling package - sfg (simple feature geometric) - store information of spatial feature</p>
+<p>data handling: to import geospatial data - st_transform: convert geospatial data from one projection system to another projection system - a lot of geospatial data need to convert to projected coordinate system if we want to involve distance measurement, precise location measurement</p>
+<p>shapefile: a collection of small file (PRJ gives projection information, SHX projection index etc)</p>
+<p>geometric confirmation: checking all the geometric data - st_intersects: compute and return data as attributes - find out the simple features that fall within the planning subzone</p>
+<p>sf methods: - geometry generating logical operators - st_intersection: generate the output explicitly - st_difference &amp; st_sym_difference</p>
+<p>Higher-level operations: (e.g., st_join) - spatial data wrangling: generate new data out of the existing data - st_buffer: calculate the buffer (provide the buffer distance)</p>
+<p>convenience functions: (understand the geospatial data) - st_geometry: list out the geometric properties</p>
+</section>
+</section>
+<section id="hands-on-exercise-02" class="level1">
+<h1>Hands-on Exercise 02</h1>
 <ul>
 <li>Use map symbols to visualise selected properties of geographic features that are not naturally visible, such as population, temperature, crime rate, and property prices</li>
 </ul>
+<section id="video-2-learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="video-2-learning-objectives">Video 2 Learning Objectives</h2>
+<p>Choropleth Mapping and TMap</p>
+<p>choropleth: type of map that area is shaded (planning subzone) colour: map the variables</p>
+<p>number of classes: - smaller classes (generalise the distribution) - should not have less than 4 classes if not cannot see the statistical distribution</p>
+<p>data classification: - equal interval - highly skewed (divide the intervals into equal value range) - If data ranges from 0 to 100 and you want to create 5 classes, each class would cover a range of 20 units (e.g., 0-20, 21-40, etc.) - quantile - If you have 100 data points and want 4 classes, each class will contain 25 data points, regardless of the actual value ranges - natural breaks (The Jenks method will automatically determine the best places to split this data into a specified number of classes, minimizing the variance within each class and maximizing the difference between classes.) - In a dataset with clear gaps between clusters of values, natural breaks would group these clusters into different classes, manual - std (map the std only if the data resemble normal distribution if not do not use this)</p>
+<p>colour scheme: colourbrewer - find out what will the colour scheme used - nominal color scheme (categorical data - sequential (value are all negative or all positive)/diverging (mix of positive and negative) for continuous data</p>
+<p>CHOROPLETH MAP: - classified choropleth map (will have the fixed number) - data is divided into distinct classes or categories - unclassified choropleth map: data values are represented using a continuous colour gradient</p>
 <p><strong>Hands-on Exercise 03</strong></p>
 <p><strong>Hands-on Exercise 04</strong></p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
