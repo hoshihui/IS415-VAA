@@ -41,7 +41,7 @@ cyclingpath = st_read(dsn = "D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex01/dat
 # 1.3 Importing GIS data in kml format
 
 ```{r}
-preschool = st_read( "D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex01/data/geospatial")
+preschool = st_read( "D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex01/data/geospatial/PreSchoolsLocation.kml")
 ```
 
 *kml format: can include all type of geometry*
@@ -193,6 +193,3 @@ ggplot(data=mpsz3414,
 ```
 
 *aes is to map the Pre School Density while as.numeric is to treat the data as a numeric value. geom_hist is for histogram while geom_point is for scatter plot*
-
-
-

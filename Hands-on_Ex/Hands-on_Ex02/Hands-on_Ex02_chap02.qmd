@@ -1,5 +1,5 @@
 ---
-title: "Hands-on Exercise 01 Chapter 2"
+title: "Hands-on Exercise 02 Chapter 2"
 author: "Ho Shi Hui"
 date: "19 August, 2024"
 date-modified: "last-modified"
@@ -61,6 +61,7 @@ mutate(`DEPENDENCY` = (`YOUNG` + `AGED`)
   select(`PA`, `SZ`, `YOUNG`, 
        `ECONOMY ACTIVE`, `AGED`, 
        `TOTAL`, `DEPENDENCY`)
+#this code has error because we are not summing up the right items
 
 popdata2020
 #group_by: group the three column of daa together and each unique combination will be a separate group
@@ -173,13 +174,9 @@ tm_shape(mpsz_pop2020)+
 #style: specifies method for dividing the data. quantile means divide so each category has equal data points. equal divide into 5 equal width interval. jenks are based on natural groupings, grouping similar values together
 ```
 
-*DIY: Using what you had learned, prepare choropleth maps by using different classification methods supported by tmap and compare their differences.*
-- jenks would be better as it shows the results better where it will classify the group based on minimal variance where there it shows which area has a balance of non-economically active people and economically active
-- quantile results might not be accurate because it just group according to equal number of people in the class which does not tell much
-- equal only have equal bin/range which will show that most of the areas or boundaries have dependency ratio within a certain range and identify anomalies where the non economically active people is greater than the economically active
+*DIY: Using what you had learned, prepare choropleth maps by using different classification methods supported by tmap and compare their differences.* - jenks would be better as it shows the results better where it will classify the group based on minimal variance where there it shows which area has a balance of non-economically active people and economically active - quantile results might not be accurate because it just group according to equal number of people in the class which does not tell much - equal only have equal bin/range which will show that most of the areas or boundaries have dependency ratio within a certain range and identify anomalies where the non economically active people is greater than the economically active
 
-*DIY: Preparing choropleth maps by using similar classification method but with different numbers of classes (i.e. 2, 6, 10, 20). Compare the output maps, what observation can you draw?*
-- using the same classification method but different classes will make the map have more variation in colour as there will greater ranges due to more classes. it will show more specfic data ranges.
+*DIY: Preparing choropleth maps by using similar classification method but with different numbers of classes (i.e. 2, 6, 10, 20). Compare the output maps, what observation can you draw?* - using the same classification method but different classes will make the map have more variation in colour as there will greater ranges due to more classes. it will show more specfic data ranges.
 
 ### 2.3.3.1 Plotting choropleth map with custom break
 

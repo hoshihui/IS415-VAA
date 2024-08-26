@@ -1,0 +1,100 @@
+---
+title: "In-class Exercise 2: Fundamental of Geospatial Data Visualisation and tmap Methods"
+author: "Ho Shi Hui"
+date: "August 26, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true #run through the code if there is an error
+  echo: true #show all the code used
+  freeze: true #only render qmd files changes made
+---
+
+**Importing packages**
+```{r}
+pacman::p_load(sf, tidyverse)
+```
+
+**MPSZ SHP 2014**
+```{r}
+mpsz14_shp = st_read(dsn = "D:/hoshihui/IS415-VAA/In-class_Ex/In-class_Ex02/data/geospatial", 
+                  layer = "MP14_SUBZONE_WEB_PL")
+```
+**MPSZ 2014 KML version**
+```{r}
+#| eval: false
+mpsz14_kml = st_read("D:/hoshihui/IS415-VAA/In-class_Ex/In-class_Ex02/data/MasterPlan2014SubzoneBoundaryWebKML.kml")
+```
+```{r}
+#| output: false #output of the code will not be shown on the website rendered
+st_write(mpsz14_shp, "data/MasterPlan2014SubzoneBoundaryWebKML.kml", delete_dsn = TRUE)
+# make the kml work if face with the error of the corrupted KML file like the code on top. it can help with other data format also besides kml
+#delete_dsn = TRUE to make sure the error message of the dataset is already present will not occur
+```
+
+**Preschool KML Version**
+```{r}
+presch_kml = st_read("D:/hoshihui/IS415-VAA/In-class_Ex/In-class_Ex02/data/geospatial/PreSchoolsLocation.kml") %>% st_transform(crs = 3414)
+```
+
+**MPSZ SHP 2019**
+```{r}
+mpsz19_shp = st_read(dsn = "D:/hoshihui/IS415-VAA/In-class_Ex/In-class_Ex02/data/geospatial", layer =  "MPSZ-2019") %>% st_transform(crs = 3414)
+
+st_crs(mpsz19_shp) # to check the EPSG 3414
+
+#go to epsg.io to find the crs system
+# %>% to glue to syntax together
+```
+
+**MPSZ 2019 KML**
+```{r}
+mpsz19_kml = st_read("D:/hoshihui/IS415-VAA/In-class_Ex/In-class_Ex02/data/MasterPlan2019SubzoneBoundaryNoSeaKML.kml")
+#in the kml if the multiplygon is between 0 to 360 with decial point it is not in projected coordinate system
+```
+
+**Population Latest Data**
+
+```{r}
+popdata = read_csv("data/respopagesextod2023.csv")
+#usually use the csv
+
+# to segregate 
+popdata2023 <- popdata %>%
+  group_by(PA, SZ, AG) %>%
+  summarise(`POP` = sum(`Pop`)) %>%
+  ungroup()%>%
+  pivot_wider(names_from= AG, 
+              values_from=POP)
+
+#wider to rotate the table
+#summarise to collate all the age group and name it POP and sum all the population value according to the group by
+#ungroup because we group the data already so must always ungroup after having a group function
+
+colnames(popdata2023) #use this to show which you need to sum together for the young, economy active etc
+
+#data processing
+popdata2023 <- popdata2023 %>% 
+  mutate(YOUNG = rowSums(.[3:6])
+         +rowSums(.[14])) %>%
+mutate(`ECONOMY ACTIVE` = rowSums(.[7:13])+
+rowSums(.[15]))%>%
+mutate(`AGED`=rowSums(.[16:21])) %>%
+mutate(`TOTAL`=rowSums(.[3:21])) %>%  
+mutate(`DEPENDENCY` = (`YOUNG` + `AGED`)
+/`ECONOMY ACTIVE`) %>%
+  select(`PA`, `SZ`, `YOUNG`, 
+       `ECONOMY ACTIVE`, `AGED`, 
+       `TOTAL`, `DEPENDENCY`)
+
+popdata2023 <- popdata2023 %>% mutate_at(.vars = vars(PA, SZ), .funs = list(toupper))
+#for common identifier have to same field name and same type so we are converting everything into upper case because we want to left join with MPSZ and the names on MPSZ are all in upper case
+```
+
+**Joining popdata2023 and mpsz19_shp**
+```{r}
+mpsz_pop2023 <- left_join(mpsz19_shp, popdata2023, by = c("SUBZONE_N" = "SZ"))
+
+pop2023_mpsz <- left_join(popdata2023, mpsz19_shp, by = c("SZ" = "SUBZONE_N"))
+# the sequence matter where the left join matters the mpsz and popdata where the first one is popdata2023 joining with mpsz19 while the other one is mpsz joining with popdata
+```
+
