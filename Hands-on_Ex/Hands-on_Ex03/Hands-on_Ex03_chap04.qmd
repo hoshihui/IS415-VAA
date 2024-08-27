@@ -81,7 +81,7 @@ sg_sp
 
 ## 4.3.3 Converting generic sp format into spatstat's ppp format
 ```{r}
-#childcare_ppp <- as.ppp(childcare_sf)
+#childcare_ppp <- as.ppp(childcare_sp)
 childcare_ppp <- as.ppp(st_coordinates(childcare_sf), st_bbox(childcare_sf))
 childcare_ppp
 # ppp object in spatstat represents a point pattern, which is a set of points in a two-dimensional space

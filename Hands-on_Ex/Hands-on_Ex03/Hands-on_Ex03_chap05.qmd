@@ -14,3 +14,39 @@ output:
 
 **05 2nd Order Spatial Point Patterns Analysis Methods**
 
+#5.1 Importing packages
+```{r}
+pacman::p_load(sf, raster, spatstat, tmap, tidyverse)
+```
+#5.2 Spatial Data Wrangling
+## 5.2.1 Importing Data
+```{r}
+childcare_sf <- st_read("data/child-care-services-geojson.geojson") %>%
+  st_transform(crs = 3414)
+
+sg_sf <- st_read(dsn = "data", layer="CostalOutline") %>% st_transform(crs = 3414)
+
+mpsz_sf <- st_read(dsn = "data", 
+                layer = "MP14_SUBZONE_WEB_PL") %>% st_transform(crs = 3414)
+st_crs(sg_sf)
+```
+
+##5.2.2 Mapping geospatial datasets
+```{r}
+tmap_mode("plot") #static map because of plot
+qtm(mpsz_sf) + qtm(childcare_sf)
+
+#interactive
+tmap_mode('view')
+tm_shape(childcare_sf)+
+  tm_dots()
+
+tmap_mode('plot')
+```
+
+# 5.3 Geospatial Data Wrangling
+## 5.3.1 Converting sf format into ppp format
+```{r}
+childcare_ppp <- as.ppp(st_coordinates(childcare_sf), st_bbox(childcare_sf))
+childcare_ppp
+```
