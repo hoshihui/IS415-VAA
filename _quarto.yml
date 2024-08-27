@@ -13,8 +13,10 @@ website:
             href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01_chap01.html
           - text: "Hands-on Exercise 2"
             href: Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02_chap02.html
-          - text: "Hands-on Exercise 3"
+          - text: "Hands-on Exercise 3 Part 1"
             href: Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_chap04.html
+          - text: "Hands-on Exercise 3 Part 2"
+            href: Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_chap05.html
       - text: "In-class Exercises"
         menu: 
           - text: "In-class Exercise 1"
