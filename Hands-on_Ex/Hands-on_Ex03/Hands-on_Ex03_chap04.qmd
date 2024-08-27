@@ -1,4 +1,98 @@
 ---
 title: "Hands-on Exercise 03 Chapter 3"
 author: "Ho Shi Hui"
+date: "27 August, 2024"
+date-modified: "last-modified"
+output:
+  html_document:
+    toc: yes
 ---
+
+**04 1st Order Spatial Point Patterns Analysis Methods**
+
+# 4.1 Importing packages:
+```{r}
+pacman::p_load(sf, raster, spatstat, tmap, tidyverse)
+```
+
+# 4.2 Spatial Data Wrangling
+## 4.2.1 Importing spatial data
+### Childcare data
+```{r}
+childcare_sf = st_read("D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex03/data/child-care-services-geojson.geojson") %>% st_transform(crs = 3414)
+```
+### Coastal data
+```{r}
+sg_sf = st_read(dsn = "D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex03/data", layer="CostalOutline") %>% st_transform(crs = 3414)
+st_crs(sg_sf)
+```
+### MPSZ data
+```{r}
+mpsz_sf = st_read(dsn = "D:/hoshihui/IS415-VAA/Hands-on_Ex/Hands-on_Ex03/data", layer = "MP14_SUBZONE_WEB_PL") %>% st_transform(crs = 3414)
+st_crs(mpsz_sf)
+```
+
+## 4.2.2 Mapping the geospatial datasets
+```{r}
+#static
+tmap_mode("plot") +
+  tm_shape(mpsz_sf) +
+  tm_fill(col = "gray90") +  # Set fill color to a light gray
+  tm_borders(col = "black", alpha = 0.5) +  # Set border color and transparency
+  tm_shape(childcare_sf) +
+  tm_dots() +  # Set point size and color
+  tm_layout(legend.show = FALSE, frame = TRUE)  # Remove the legend and add a frame
+
+
+#view
+tmap_mode('view')
+tm_shape(childcare_sf)+
+  tm_dots()
+```
+
+# 4.3 Geospatial Data Wrangling
+## 4.3.1 Converting sf dataframes to sp's Spatial class
+```{r}
+#spatial objects
+childcare <- as_Spatial(childcare_sf)
+childcare #spatial classes
+childcare_sf #sf
+mpsz <- as_Spatial(mpsz_sf)
+mpsz #spatial classes
+mpsz_sf #sf
+sg <- as_Spatial(sg_sf)
+sg #spatial classes
+sg_sf #sf
+# summary of the spatial object, giving you insight into both the geographic data (the polygons) and the associated attribute data
+```
+
+## 4.3.2 Converting the spatial class into generic sp format
+```{r}
+# spatstat requires the analytical data in ppp object form. There is no direct way to convert a Spatial* classes into ppp object. We need to convert the Spatial classes* into Spatial object first.
+childcare_sp <- as(childcare, "SpatialPoints") #spatial point dataframe
+childcare_sp
+sg_sp <- as(sg, "SpatialPolygons") #spatial polygon dataframe
+sg_sp
+#sp is the broader one while Spatial* is more specific
+```
+
+## 4.3.3 Converting generic sp format into spatstat's ppp format
+```{r}
+childcare_ppp <- as.ppp(childcare_sf)
+childcare_ppp
+# ppp object in spatstat represents a point pattern, which is a set of points in a two-dimensional space
+#the output: window of the point pattern is defined by a rectangle. The coordinates specify the extent of this rectangle
+# Marked planar is point pattern on a two-dimensional plane where each point has an associated "mark." In this context, "marks" are additional attributes or categories assigned to each point.
+
+plot(childcare_ppp)
+summary(childcare_ppp)
+
+# warning message about duplicates. In spatial point patterns analysis an issue of significant is the presence of duplicates. The statistical methodology used for spatial point patterns processes is based largely on the assumption that process are simple, that is, that the points cannot be coincident
+```
+
+## 4.3.4 Handling duplicated points
+```{r}
+any(duplicated(childcare_ppp)) #check duplication in ppp object
+multiplicity(childcare_ppp) #count the number of co-incidence point
+sum(multiplicity(childcare_ppp) > 1)
+```
