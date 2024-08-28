@@ -49,4 +49,196 @@ tmap_mode('plot')
 ```{r}
 childcare_ppp <- as.ppp(st_coordinates(childcare_sf), st_bbox(childcare_sf))
 childcare_ppp
+plot(childcare_ppp)
+summary(childcare_ppp)
+```
+
+## 5.3.2 Check for duplicated points
+```{r}
+any(duplicated(childcare_ppp))
+multiplicity(childcare_ppp)
+sum(multiplicity(childcare_ppp) > 1)
+
+#plot the tmap
+tmap_mode('view')
+tm_shape(childcare_sf) +
+  tm_dots(alpha=0.4, 
+          size=0.05)
+tmap_mode('plot')
+```
+```{r}
+# overcome problem of duplicate points
+#solution 2 jittering
+childcare_ppp_jit <- rjitter(childcare_ppp, 
+                             retry=TRUE, 
+                             nsim=1, 
+                             drop=TRUE)
+any(duplicated(childcare_ppp_jit))
+```
+##5.3.3 Creating owin object
+```{r}
+sg_owin <- as.owin(sg_sf)
+plot(sg_owin)
+summary(sg_owin)
+```
+
+##5.3.4 Combining point events object and owin object
+```{r}
+childcareSG_ppp = childcare_ppp[sg_owin]
+summary(childcareSG_ppp)
+plot(childcareSG_ppp)
+```
+### 5.3.4.1 Extracting study area
+```{r}
+pg <- mpsz_sf %>%
+  filter(PLN_AREA_N == "PUNGGOL")
+tm <- mpsz_sf %>%
+  filter(PLN_AREA_N == "TAMPINES")
+ck <- mpsz_sf %>%
+  filter(PLN_AREA_N == "CHOA CHU KANG")
+jw <- mpsz_sf %>%
+  filter(PLN_AREA_N == "JURONG WEST")
+
+#plot target areas
+par(mfrow=c(2,2))
+plot(pg, main = "PUNGGOL")
+plot(tm, main = "TAMPINES")
+plot(ck, main = "CHOA CHU KANG")
+plot(jw, main = "JURONG WEST")
+```
+###5.3.4.2 Converting sf objects to owin objects
+```{r}
+pg_owin = as.owin(pg)
+tm_owin = as.owin(tm)
+ck_owin = as.owin(ck)
+jw_owin = as.owin(jw)
+```
+###5.3.4.3 Combining childcare points and study area
+```{r}
+childcare_pg_ppp = childcare_ppp_jit[pg_owin]
+childcare_tm_ppp = childcare_ppp_jit[tm_owin]
+childcare_ck_ppp = childcare_ppp_jit[ck_owin]
+childcare_jw_ppp = childcare_ppp_jit[jw_owin]
+
+#rescale
+childcare_pg_ppp.km = rescale(childcare_pg_ppp, 1000, "km")
+childcare_tm_ppp.km = rescale(childcare_tm_ppp, 1000, "km")
+childcare_ck_ppp.km = rescale(childcare_ck_ppp, 1000, "km")
+childcare_jw_ppp.km = rescale(childcare_jw_ppp, 1000, "km")
+
+#plot
+par(mfrow=c(2,2))
+plot(childcare_pg_ppp.km, main="PUNGGOL")
+plot(childcare_tm_ppp.km, main="TAMPINES")
+plot(childcare_ck_ppp.km, main="CHOA CHU KANG")
+plot(childcare_jw_ppp.km, main="JURONG WEST")
+```
+# 5.4 Analysing Spatial Point Process using G Function
+## 5.4.1 Choa Chu Kang Planning Area
+### 5.4.1.1 Computing G-function estimation
+```{r}
+G_CK = Gest(childcare_ck_ppp, correction = "border")
+plot(G_CK, xlim=c(0,500))
+```
+### 5.4.1.2 Performing complete spatial randomness test
+```{r}
+#Monte Carlo test with G Function
+G_CK.csr <- envelope(childcare_ck_ppp, Gest, nsim = 999)
+plot(G_CK.csr)
+```
+
+## 5.4.2 Tampines Planning Area
+### 5.4.2.1 Computing G-function estimation
+```{r}
+G_tm = Gest(childcare_tm_ppp, correction = "best")
+plot(G_tm)
+```
+### 5.4.2.2 Performing complete spatial randomness test
+```{r}
+G_tm.csr <- envelope(childcare_tm_ppp, Gest, correction = "all", nsim = 999)
+plot(G_tm.csr)
+```
+# 5.5. Analysing Spatial Point Process using F Function
+## 5.5.1 Choa Chu Kang Planning Area
+### 5.5.1.1 Computing F-function estimation
+```{r}
+F_CK = Fest(childcare_ck_ppp)
+plot(F_CK)
+```
+### 5.5.1.2 Performing Complete Spatial Randomness Test
+```{r}
+#Monte Carlo Test with F-function
+F_CK.csr <- envelope(childcare_ck_ppp, Fest, nsim = 999)
+plot(F_CK.csr)
+```
+## 5.5.2 Tampines Planning Area
+### 5.5.2.1 Computing F-function estimation
+```{r}
+F_tm = Fest(childcare_tm_ppp, correction = "best")
+plot(F_tm)
+```
+
+### 5.5.2.1 Performing complete spatial randomness test
+```{r}
+F_tm.csr <- envelope(childcare_tm_ppp, Fest, correction = "all", nsim = 999)
+plot(F_tm.csr)
+```
+
+# 5.6 Analysing Spatial Point Process using K-function
+## 5.6.1 Choa Chu Kang Planning Area
+### 5.6.1.1 Computing K-function estimate
+```{r}
+K_ck = Kest(childcare_ck_ppp, correction = "Ripley")
+plot(K_ck, . -r ~ r, ylab= "K(d)-r", xlab = "d(m)")
+```
+
+###5.6.1.2 Performing complete spatial randomness test
+```{r}
+K_ck.csr <- envelope(childcare_ck_ppp, Kest, nsim = 99, nrank = 1, global=FALSE)
+plot(K_ck.csr, . - r ~ r, xlab="d", ylab="K(d)-r")
+#global = FALSE is for point by point but TRUE is for continuous
+```
+
+## 5.6.2 Tampines Planning Area
+### 5.6.2.1 Computing K-function estimate
+```{r}
+K_tm = Kest(childcare_tm_ppp, correction = "Ripley")
+plot(K_tm, . -r ~ r, 
+     ylab= "K(d)-r", xlab = "d(m)", 
+     xlim=c(0,1000))
+```
+
+###5.6.2.2 Performing complete spatial randomness test
+```{r}
+K_tm.csr <- envelope(childcare_tm_ppp, Kest, nsim = 99, nrank = 1, global=FALSE)
+plot(K_tm.csr, . - r ~ r, 
+     xlab="d", ylab="K(d)-r", xlim=c(0,500))
+```
+
+# 5.7 Analysing using L-function
+## 5.7.1 Choa Chu Kang Planning Area
+### 5.7.1.1 Computing L-function estimate
+```{r}
+L_ck = Lest(childcare_ck_ppp, correction = "Ripley")
+plot(L_ck, . -r ~ r, 
+     ylab= "L(d)-r", xlab = "d(m)")
+```
+### 5.7.1.2 Performing complete spatial randomness test
+```{r}
+L_ck.csr <- envelope(childcare_ck_ppp, Lest, nsim = 99, nrank = 1, global=FALSE)
+plot(L_ck.csr, . - r ~ r, xlab="d", ylab="L(d)-r")
+```
+
+##5.7.2 Tampines Planning Area
+### 5.7.2.1 Computing L-function estimate
+```{r}
+L_tm = Lest(childcare_tm_ppp, correction = "Ripley")
+plot(L_tm, . -r ~ r, 
+     ylab= "L(d)-r", xlab = "d(m)")
+```
+### 5.7.2.2 Performing complete spatial randomness test
+```{r}
+L_tm.csr <- envelope(childcare_tm_ppp, Lest, nsim = 99, nrank = 1, global=FALSE)
+plot(L_tm.csr, . - r ~ r, 
+     xlab="d", ylab="L(d)-r", xlim=c(0,500))
 ```
