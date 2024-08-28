@@ -14,11 +14,11 @@ output:
 
 **05 2nd Order Spatial Point Patterns Analysis Methods**
 
-#5.1 Importing packages
+# 5.1 Importing packages
 ```{r}
 pacman::p_load(sf, raster, spatstat, tmap, tidyverse)
 ```
-#5.2 Spatial Data Wrangling
+# 5.2 Spatial Data Wrangling
 ## 5.2.1 Importing Data
 ```{r}
 childcare_sf <- st_read("data/child-care-services-geojson.geojson") %>%
@@ -31,7 +31,7 @@ mpsz_sf <- st_read(dsn = "data",
 st_crs(sg_sf)
 ```
 
-##5.2.2 Mapping geospatial datasets
+## 5.2.2 Mapping geospatial datasets
 ```{r}
 tmap_mode("plot") #static map because of plot
 qtm(mpsz_sf) + qtm(childcare_sf)
@@ -75,14 +75,14 @@ childcare_ppp_jit <- rjitter(childcare_ppp,
                              drop=TRUE)
 any(duplicated(childcare_ppp_jit))
 ```
-##5.3.3 Creating owin object
+## 5.3.3 Creating owin object
 ```{r}
 sg_owin <- as.owin(sg_sf)
 plot(sg_owin)
 summary(sg_owin)
 ```
 
-##5.3.4 Combining point events object and owin object
+## 5.3.4 Combining point events object and owin object
 ```{r}
 childcareSG_ppp = childcare_ppp[sg_owin]
 summary(childcareSG_ppp)
@@ -106,14 +106,14 @@ plot(tm, main = "TAMPINES")
 plot(ck, main = "CHOA CHU KANG")
 plot(jw, main = "JURONG WEST")
 ```
-###5.3.4.2 Converting sf objects to owin objects
+### 5.3.4.2 Converting sf objects to owin objects
 ```{r}
 pg_owin = as.owin(pg)
 tm_owin = as.owin(tm)
 ck_owin = as.owin(ck)
 jw_owin = as.owin(jw)
 ```
-###5.3.4.3 Combining childcare points and study area
+### 5.3.4.3 Combining childcare points and study area
 ```{r}
 childcare_pg_ppp = childcare_ppp_jit[pg_owin]
 childcare_tm_ppp = childcare_ppp_jit[tm_owin]

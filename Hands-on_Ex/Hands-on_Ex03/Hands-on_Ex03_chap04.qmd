@@ -212,7 +212,7 @@ kde_childcareSG_600 <- density(childcareSG_ppp.km, sigma=0.6, edge=TRUE, kernel=
 plot(kde_childcareSG_600)
 #0.6 because the measure is in km
 ```
-##4.5.2 Computing KDE using Adaptive Bandwidth
+## 4.5.2 Computing KDE using Adaptive Bandwidth
 ```{r}
 kde_childcareSG_adaptive <- adaptive.density(childcareSG_ppp.km, method="kernel")
 plot(kde_childcareSG_adaptive)
@@ -246,7 +246,7 @@ tm_shape(kde_childcareSG_bw_raster) +
   tm_raster("layer", palette = "viridis") +
   tm_layout(legend.position = c("right", "bottom"), frame = FALSE)
 ```
-##4.5.5 Comparing Spatial Points using KDE
+## 4.5.5 Comparing Spatial Points using KDE
 ### 4.5.5.1 Extracting Study Area
 ```{r}
 pg <- mpsz_sf %>%
@@ -357,7 +357,7 @@ clarkevans.test(childcareSG_ppp,
 #Clustering Detected: The test strongly supports the alternative hypothesis that the point pattern is clustered (R < 1), meaning that the childcare centers in the childcareSG_ppp dataset tend to be located closer to each other than would be expected under a random distribution.
 #Statistical Significance: The extremely low p-value (< 2.2e-16) indicates that this clustering is highly statistically significant, making it extremely unlikely that the observed pattern is due to random chance and it is below the confidence interval.
 ```
-##4.6.2 Clark Evans Test for Choa Chu Kang
+## 4.6.2 Clark Evans Test for Choa Chu Kang
 ```{r}
 clarkevans.test(childcare_ck_ppp,
                 correction="none",
@@ -367,7 +367,7 @@ clarkevans.test(childcare_ck_ppp,
 #two.sided check for both side R>1 and R<1
 ```
 
-##4.6.3 Clark Evans Test for Tampines
+## 4.6.3 Clark Evans Test for Tampines
 ```{r}
 clarkevans.test(childcare_tm_ppp,
                 correction="none",
